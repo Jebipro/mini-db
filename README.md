@@ -1,20 +1,20 @@
 # Mini DB
 
-An embedded, single-file relational database engine written from scratch in TypeScript — for learning how a
-database works, and for **proving with tests** that it does not lose or corrupt data on a crash.
+**한국어** | [English](./README.en.md)
 
-- Disk pages (4 KiB, CRC32 per page), slotted heap pages, a self-describing catalog
-- Disk B+tree indexes (unique / non-unique, single column)
-- A SQL-like language: lexer → recursive-descent parser → analyzer → rule-based planner → Volcano executor
-- Transactions with statement-level atomicity, redo-only page-image **WAL**, checkpoint and crash recovery
-- Zero runtime dependencies (devDependencies: `typescript`, `vitest`, `@types/node`)
+TypeScript로 처음부터 작성한 임베디드 단일 파일 관계형 데이터베이스 엔진입니다. 데이터베이스가 내부에서 어떻게 동작하는지 배우고, crash가 나도 데이터를 잃거나 손상시키지 않는다는 것을 **테스트로 검증**하기 위해 만들었습니다.
 
-The design is fixed in [DESIGN_REVIEW.md](DESIGN_REVIEW.md) (rev1); deviations are recorded in
-[DECISIONS.md](DECISIONS.md).
+- Disk page(4 KiB, page마다 CRC32), slotted heap page, 스스로를 기술하는 catalog
+- Disk B+tree index (unique / non-unique, 단일 column)
+- SQL과 비슷한 언어: lexer → recursive-descent parser → analyzer → rule-based planner → Volcano executor
+- 문장 단위 원자성을 갖는 transaction, redo-only page-image **WAL**, checkpoint와 crash recovery
+- runtime 의존성 없음 (devDependencies: `typescript`, `vitest`, `@types/node`)
 
-## Install and run
+설계는 [DESIGN_REVIEW.md](DESIGN_REVIEW.md)(rev1)에서 확정했고, 이후 달라진 결정은 [DECISIONS.md](DECISIONS.md)에 기록했습니다.
 
-Requires Node.js ≥ 20.
+## 설치와 실행
+
+Node.js 20 이상이 필요합니다.
 
 ```bash
 npm install
@@ -29,8 +29,8 @@ npm run cli -- my.db
 npm run cli -- my.db -c "CREATE TABLE t (id INTEGER PRIMARY KEY, name TEXT); INSERT INTO t VALUES (1, 'a'); SELECT * FROM t"
 ```
 
-REPL dot commands: `.help .tables .schema .indexes .stats .integrity .checkpoint .quit`.
-Exit codes: `0` ok, `1` SQL error, `2` usage error, `3` open failure / failed handle.
+REPL dot command: `.help .tables .schema .indexes .stats .integrity .checkpoint .quit`.
+Exit code: `0` 정상, `1` SQL 오류, `2` 사용법 오류, `3` open 실패 / 실패 상태의 handle.
 
 ## Library
 
@@ -52,18 +52,17 @@ console.log(db.integrityCheck().ok, db.stats().io);
 db.close();
 ```
 
-Values are `number` (safe integers, ±(2^53−1)), `string`, `boolean` or `null`. Errors are `MiniDbError`
-subclasses with a stable `code` and, for SQL errors, `line:column` plus the source line (`err.format()`).
+값은 `number`(safe integer, ±(2^53−1)), `string`, `boolean`, `null`입니다. 오류는 고정된 `code`를 가진 `MiniDbError` 하위 class이며, SQL 오류는 `line:column`과 해당 소스 줄(`err.format()`)도 함께 제공합니다.
 
-## The language (summary — see [SPEC.md](SPEC.md))
+## 언어 요약 ([SPEC.md](SPEC.md) 참조)
 
-- Types: `INTEGER`, `TEXT`, `BOOLEAN`, `NULL`; no implicit conversions
-- `CREATE TABLE` (NOT NULL, single-column PRIMARY KEY), `DROP TABLE`, `CREATE [UNIQUE] INDEX`, `DROP INDEX`
-- `INSERT` (multi-row VALUES), `SELECT cols|* FROM t [WHERE] [ORDER BY] [LIMIT n [OFFSET m]]`, `UPDATE`, `DELETE`
-- Expressions: comparisons, `AND/OR/NOT` (three-valued logic), `IS [NOT] NULL`, integer `+ - *`, unary `-`
+- Type: `INTEGER`, `TEXT`, `BOOLEAN`, `NULL`. 암묵적 변환 없음
+- `CREATE TABLE`(NOT NULL, 단일 column PRIMARY KEY), `DROP TABLE`, `CREATE [UNIQUE] INDEX`, `DROP INDEX`
+- `INSERT`(여러 row의 VALUES), `SELECT cols|* FROM t [WHERE] [ORDER BY] [LIMIT n [OFFSET m]]`, `UPDATE`, `DELETE`
+- 식: 비교, `AND/OR/NOT`(3값 논리), `IS [NOT] NULL`, 정수 `+ - *`, 단항 `-`
 - `BEGIN / COMMIT / ROLLBACK`, `EXPLAIN SELECT …`
 
-## Layout
+## 구조
 
 ```text
 src/util      CRC32, PRNG, bytes, UTF-8          src/sql       lexer, parser, analyzer
@@ -75,58 +74,58 @@ tests/        unit, integration, golden SQL, reference model, crash/corruption s
 bench/        benchmark harness
 ```
 
-Documents: [ARCHITECTURE](ARCHITECTURE.md) · [FORMAT](FORMAT.md) · [DURABILITY](DURABILITY.md) ·
+문서: [ARCHITECTURE](ARCHITECTURE.md) · [FORMAT](FORMAT.md) · [DURABILITY](DURABILITY.md) ·
 [TESTING](TESTING.md) · [BENCHMARKS](BENCHMARKS.md) · [LIMITATIONS](LIMITATIONS.md) · [FUTURE](FUTURE.md) ·
 [LEARNING](LEARNING.md) · [REVIEW_PACKET](REVIEW_PACKET.md) · [PROGRESS](PROGRESS.md)
 
-Study material: [Core walkthrough](docs/study/MINI_DB_CORE_WALKTHROUGH.md) (durability, Page 0, heap, B+tree, UPDATE,
-planner, testing, real findings, self-check).
+학습 자료: [Core walkthrough](docs/study/MINI_DB_CORE_WALKTHROUGH.md) (durability, Page 0, heap, B+tree, UPDATE,
+planner, testing, 실제 발견 사항, self-check).
 
-## Testing
+## 테스트
 
 ```bash
 npm run check
 ```
 
-`check` = typecheck + `check:any` (no explicit `any`, no `Math.random`) + `check:docs` (error codes, fsync tags,
-test IDs) + `npm test` (unit, integration, SQL golden files, short model-based and crash suites).
+`check` = typecheck + `check:any`(명시적 `any`와 `Math.random` 금지) + `check:docs`(오류 code, fsync tag,
+테스트 ID 대조) + `npm test`(unit, integration, SQL golden file, 짧은 model-based·crash suite).
 
 ```bash
 npm run test:random
 ```
 
-Model-based random testing against an independent reference model (`SEEDS`, `SEED_START`, `SEED`, `STEPS`).
-A failure prints the seed and the command that reproduces it.
+독립 참조 모델과 비교하는 model-based 무작위 테스트입니다(`SEEDS`, `SEED_START`, `SEED`, `STEPS`).
+실패하면 해당 seed와 재현 명령을 출력합니다.
 
 ```bash
 npm run test:crash
 ```
 
-Exhaustive fault injection: every write/fsync/truncate of the page-level and SQL workloads is a crash point,
-under several "what survived" policies (only synced data, everything, torn writes, random subsets), plus
-crashes during recovery. After every crash the database must reopen, pass `integrityCheck`, and contain
-exactly the acknowledged transactions (the in-flight one may or may not be present).
+전수 fault injection입니다. page 수준과 SQL 수준 workload의 모든 write/fsync/truncate가 crash 지점이 되고,
+"무엇이 남았는가"에 대한 여러 정책(동기화된 데이터만, 전부, 찢어진 write, 무작위 일부)으로 실행합니다.
+recovery 도중의 crash도 포함합니다. crash 이후에는 매번 DB가 다시 열리고 `integrityCheck`를 통과해야 하며,
+확인(acknowledge)된 transaction만 정확히 남아 있어야 합니다(진행 중이던 transaction은 있을 수도, 없을 수도 있습니다).
 
 ```bash
 npm run bench
 ```
 
-## Limitations
+## 한계
 
-Single process, single connection, synchronous; rows must fit one page (4060 bytes); index keys ≤ 512 bytes;
-no joins, aggregates, subqueries or ALTER TABLE; crash safety is verified against a simulated file system, not
-real power loss. Full list: [LIMITATIONS.md](LIMITATIONS.md).
+단일 프로세스, 단일 connection, 동기 실행입니다. row는 한 page(4060바이트)에 들어가야 하고, index key는 512바이트 이하입니다.
+join, aggregate, subquery, ALTER TABLE은 없습니다. crash 안전성은 실제 전원 차단(power loss)이 아니라 시뮬레이션한
+파일 시스템으로 검증했습니다. 전체 목록: [LIMITATIONS.md](LIMITATIONS.md).
 
-## Development process and AI collaboration
+## 개발 과정과 AI 협업
 
-This project was built with extensive use of AI tools for design, implementation, testing, review and documentation. The design review, the implementation (P0–P17), the post-implementation review and the follow-up fixes were written by an AI coding agent (Claude Code). The author wrote the staged instructions (design review, implementation plan, review and fix scope), decided each next step, and checked and accepted the results. The review in [CLAUDE_INDEPENDENT_REVIEW.md](CLAUDE_INDEPENDENT_REVIEW.md) was performed by the same AI under separate instructions; it is not a human code review.
+이 프로젝트는 설계, 구현, 테스트, 리뷰, 문서화 과정에서 AI 도구를 적극적으로 활용했습니다. 설계 검토, 구현(P0–P17), 구현 후 리뷰와 후속 수정은 AI 코딩 에이전트(Claude Code)가 작성했습니다. 작성자는 단계별 지시서(설계 검토, 구현 계획, 리뷰와 수정 범위)를 쓰고, 다음 단계를 결정하고, 결과를 확인해 채택했습니다. [CLAUDE_INDEPENDENT_REVIEW.md](CLAUDE_INDEPENDENT_REVIEW.md)의 리뷰는 같은 AI가 별도 지시로 수행한 것이며, 사람의 코드 리뷰가 아닙니다.
 
-The repository keeps the design decisions ([DESIGN_REVIEW](DESIGN_REVIEW.md), [DECISIONS](DECISIONS.md)), the test evidence ([TESTING](TESTING.md)), the known limitations ([LIMITATIONS](LIMITATIONS.md)) and the verification results next to the code.
+저장소에는 설계 결정([DESIGN_REVIEW](DESIGN_REVIEW.md), [DECISIONS](DECISIONS.md)), 테스트 근거([TESTING](TESTING.md)), 알려진 한계([LIMITATIONS](LIMITATIONS.md)), 검증 결과를 코드와 함께 남겼습니다.
 
-## About this public repository
+## 공개 저장소 안내
 
-This repository starts from the final validated state rather than the full development history. Seven-character commit hashes in [PROGRESS](PROGRESS.md), the review reports, [BENCHMARKS](BENCHMARKS.md) and the study material (for example `b58d809`) refer to the private development history and cannot be looked up here. The figures and conclusions are as recorded at those points; the source and tests in this repository are identical to the last development commit.
+이 저장소는 개발 history 대신 검증을 마친 최종 상태로 시작합니다. [PROGRESS](PROGRESS.md), 리뷰 보고서, [BENCHMARKS](BENCHMARKS.md), 학습 자료에 나오는 7자리 commit hash(예: `b58d809`)는 비공개 개발 history의 commit을 가리키며, 이 저장소에서는 조회할 수 없습니다. 기록된 수치와 결론은 그 시점의 결과이고, 이 저장소의 소스와 테스트는 마지막 개발 commit과 같습니다.
 
-## License
+## 라이선스
 
-MIT. See [LICENSE](LICENSE).
+MIT. [LICENSE](LICENSE)를 참조합니다.
