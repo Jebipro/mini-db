@@ -1,0 +1,39 @@
+> CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL, active BOOLEAN)
+CREATE TABLE
+
+> CREATE TABLE Users (x INTEGER)
+ERROR SemanticError OBJECT_EXISTS at 1:14: a table or index named users already exists
+
+> CREATE TABLE logs (msg TEXT, at INTEGER)
+CREATE TABLE
+
+> CREATE TABLE mdb_secret (a INTEGER)
+ERROR SemanticError RESERVED_NAME at 1:14: names starting with 'mdb_' are reserved: mdb_secret
+
+> CREATE TABLE dup (a INTEGER, A TEXT)
+ERROR SemanticError DUPLICATE_COLUMN at 1:30: duplicate column a
+
+> CREATE TABLE twopk (a INTEGER PRIMARY KEY, b INTEGER PRIMARY KEY)
+ERROR SemanticError MULTIPLE_PRIMARY_KEYS at 1:54: a table may have only one PRIMARY KEY column
+
+> SELECT * FROM logs
+msg | at
+(0 rows)
+
+> DROP TABLE logs
+DROP TABLE
+
+> DROP TABLE logs
+ERROR SemanticError TABLE_NOT_FOUND at 1:12: no such table: logs
+
+> SELECT * FROM LOGS
+ERROR SemanticError TABLE_NOT_FOUND at 1:15: no such table: logs
+
+> CREATE TABLE logs (msg TEXT)
+CREATE TABLE
+
+> SELECT * FROM logs
+msg
+(0 rows)
+
+-- integrity: ok

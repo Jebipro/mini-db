@@ -1,0 +1,49 @@
+> CREATE TABLE ty (i INTEGER, t TEXT, b BOOLEAN)
+CREATE TABLE
+
+> INSERT INTO ty VALUES (1, 'one', TRUE), (2, 'two', FALSE), (NULL, NULL, NULL)
+INSERT 3
+
+> SELECT * FROM ty WHERE b = TRUE
+i | t | b
+1 | one | TRUE
+(1 row)
+
+> SELECT i FROM ty WHERE b < TRUE ORDER BY i
+i
+2
+(1 row)
+
+> SELECT i FROM ty WHERE t >= 'two'
+i
+2
+(1 row)
+
+> SELECT * FROM ty WHERE i = TRUE
+ERROR SemanticError TYPE_MISMATCH at 1:26: cannot compare INTEGER with BOOLEAN
+
+> SELECT * FROM ty WHERE t + 1 = 2
+ERROR SemanticError TYPE_MISMATCH at 1:26: + needs INTEGER operands, not TEXT and INTEGER
+
+> SELECT * FROM ty WHERE NOT i
+ERROR SemanticError TYPE_MISMATCH at 1:24: NOT needs BOOLEAN, not INTEGER
+
+> SELECT * FROM ty WHERE - t IS NULL
+ERROR SemanticError TYPE_MISMATCH at 1:24: unary - needs INTEGER, not TEXT
+
+> INSERT INTO ty VALUES ('1', 'x', TRUE)
+ERROR SemanticError TYPE_MISMATCH at 1:24: cannot assign TEXT to column i of type INTEGER
+
+> INSERT INTO ty VALUES (1, 'x', 1)
+ERROR SemanticError TYPE_MISMATCH at 1:32: cannot assign INTEGER to column b of type BOOLEAN
+
+> SELECT i FROM ty WHERE NULL = NULL
+i
+(0 rows)
+
+> SELECT i FROM ty WHERE i IS NULL
+i
+NULL
+(1 row)
+
+-- integrity: ok

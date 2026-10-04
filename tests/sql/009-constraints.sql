@@ -1,0 +1,10 @@
+CREATE TABLE c (id INTEGER PRIMARY KEY, name TEXT NOT NULL, note TEXT);
+INSERT INTO c VALUES (1, 'a', NULL);
+INSERT INTO c VALUES (1, 'b', NULL);
+INSERT INTO c VALUES (NULL, 'b', NULL);
+INSERT INTO c (id) VALUES (2);
+INSERT INTO c VALUES (2, 'b', NULL), (3, 'c', NULL), (2, 'dup', NULL);
+INSERT INTO c VALUES (2, 'b', NULL), (3, NULL, NULL);
+SELECT * FROM c ORDER BY id;
+INSERT INTO c VALUES (2, 'b', 'ok'), (3, 'c', 'ok');
+SELECT id, name, note FROM c ORDER BY id;

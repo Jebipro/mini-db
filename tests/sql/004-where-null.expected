@@ -1,0 +1,61 @@
+> CREATE TABLE n (id INTEGER PRIMARY KEY, a BOOLEAN, v INTEGER)
+CREATE TABLE
+
+> INSERT INTO n VALUES (1, TRUE, 1), (2, FALSE, NULL), (3, NULL, 3)
+INSERT 3
+
+> SELECT id FROM n WHERE a ORDER BY id
+id
+1
+(1 row)
+
+> SELECT id FROM n WHERE NOT a ORDER BY id
+id
+2
+(1 row)
+
+> SELECT id FROM n WHERE a IS NULL ORDER BY id
+id
+3
+(1 row)
+
+> SELECT id FROM n WHERE a IS NOT NULL ORDER BY id
+id
+1
+2
+(2 rows)
+
+> SELECT id FROM n WHERE v = NULL ORDER BY id
+id
+(0 rows)
+
+> SELECT id FROM n WHERE v <> 1 ORDER BY id
+id
+3
+(1 row)
+
+> SELECT id FROM n WHERE a OR v = 3 ORDER BY id
+id
+1
+3
+(2 rows)
+
+> SELECT id FROM n WHERE a AND v IS NULL ORDER BY id
+id
+(0 rows)
+
+> SELECT id FROM n WHERE NULL ORDER BY id
+id
+(0 rows)
+
+> SELECT id FROM n WHERE NOT (a AND NULL) ORDER BY id
+id
+2
+(1 row)
+
+> SELECT id FROM n WHERE v + 1 IS NULL ORDER BY id
+id
+2
+(1 row)
+
+-- integrity: ok

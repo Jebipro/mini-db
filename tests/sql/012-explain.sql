@@ -1,0 +1,6 @@
+CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER);
+EXPLAIN SELECT * FROM users;
+EXPLAIN SELECT name FROM users WHERE age >= 30 AND name <> 'x' ORDER BY name LIMIT 10;
+EXPLAIN SELECT id FROM users WHERE NOT (age != -3) OR name IS NULL ORDER BY age DESC, id LIMIT 1 OFFSET 2;
+EXPLAIN SELECT id FROM users WHERE age * 2 + 1 = 7 AND name = 'it''s';
+EXPLAIN SELECT id FROM users LIMIT 5;

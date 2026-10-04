@@ -1,0 +1,55 @@
+> CREATE TABLE o (id INTEGER PRIMARY KEY, g TEXT, v INTEGER)
+CREATE TABLE
+
+> INSERT INTO o VALUES (1, 'b', 3), (2, 'a', NULL), (3, 'b', 1), (4, NULL, 2), (5, 'a', 5)
+INSERT 5
+
+> SELECT id, v FROM o ORDER BY v
+id | v
+2 | NULL
+3 | 1
+4 | 2
+1 | 3
+5 | 5
+(5 rows)
+
+> SELECT id, v FROM o ORDER BY v DESC
+id | v
+5 | 5
+1 | 3
+4 | 2
+3 | 1
+2 | NULL
+(5 rows)
+
+> SELECT id, g, v FROM o ORDER BY g, v DESC
+id | g | v
+4 | NULL | 2
+5 | a | 5
+2 | a | NULL
+1 | b | 3
+3 | b | 1
+(5 rows)
+
+> SELECT id FROM o ORDER BY g DESC, id
+id
+1
+3
+2
+5
+4
+(5 rows)
+
+> SELECT g FROM o ORDER BY id DESC
+g
+a
+NULL
+b
+a
+b
+(5 rows)
+
+> SELECT id FROM o ORDER BY nope
+ERROR SemanticError COLUMN_NOT_FOUND at 1:27: no such column: nope in table o
+
+-- integrity: ok

@@ -1,0 +1,60 @@
+> CREATE TABLE u (id INTEGER PRIMARY KEY, a INTEGER, b INTEGER, s TEXT NOT NULL)
+CREATE TABLE
+
+> INSERT INTO u VALUES (1, 10, 100, 'x'), (2, 20, 200, 'y'), (3, 30, 300, 'z')
+INSERT 3
+
+> UPDATE u SET a = a + 1 WHERE id <= 2
+UPDATE 2
+
+> SELECT id, a FROM u ORDER BY id
+id | a
+1 | 11
+2 | 21
+3 | 30
+(3 rows)
+
+> UPDATE u SET a = b, b = a WHERE id = 3
+UPDATE 1
+
+> SELECT id, a, b FROM u WHERE id = 3
+id | a | b
+3 | 300 | 30
+(1 row)
+
+> UPDATE u SET id = id + 1
+UPDATE 3
+
+> SELECT id, s FROM u ORDER BY id
+id | s
+2 | x
+3 | y
+4 | z
+(3 rows)
+
+> UPDATE u SET id = 2 WHERE id = 4
+ERROR ConstraintError UNIQUE_VIOLATION at 1:1: duplicate key 2 in index mdb_pk_u (column id)
+
+> UPDATE u SET s = NULL WHERE id = 2
+ERROR ConstraintError NOT_NULL_VIOLATION at 1:1: NULL in NOT NULL column u.s
+
+> UPDATE u SET a = 'text'
+ERROR SemanticError TYPE_MISMATCH at 1:18: cannot assign TEXT to column a of type INTEGER
+
+> UPDATE u SET a = 1, a = 2
+ERROR SemanticError DUPLICATE_COLUMN at 1:21: column a is assigned twice
+
+> UPDATE u SET nope = 1
+ERROR SemanticError COLUMN_NOT_FOUND at 1:14: no such column: nope in table u
+
+> UPDATE u SET a = 0 WHERE id > 100
+UPDATE 0
+
+> SELECT id, a, b, s FROM u ORDER BY id
+id | a | b | s
+2 | 11 | 100 | x
+3 | 21 | 200 | y
+4 | 300 | 30 | z
+(3 rows)
+
+-- integrity: ok

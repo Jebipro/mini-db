@@ -1,0 +1,15 @@
+CREATE TABLE u (id INTEGER PRIMARY KEY, a INTEGER, b INTEGER, s TEXT NOT NULL);
+INSERT INTO u VALUES (1, 10, 100, 'x'), (2, 20, 200, 'y'), (3, 30, 300, 'z');
+UPDATE u SET a = a + 1 WHERE id <= 2;
+SELECT id, a FROM u ORDER BY id;
+UPDATE u SET a = b, b = a WHERE id = 3;
+SELECT id, a, b FROM u WHERE id = 3;
+UPDATE u SET id = id + 1;
+SELECT id, s FROM u ORDER BY id;
+UPDATE u SET id = 2 WHERE id = 4;
+UPDATE u SET s = NULL WHERE id = 2;
+UPDATE u SET a = 'text';
+UPDATE u SET a = 1, a = 2;
+UPDATE u SET nope = 1;
+UPDATE u SET a = 0 WHERE id > 100;
+SELECT id, a, b, s FROM u ORDER BY id;

@@ -1,0 +1,37 @@
+> CREATE TABLE d (id INTEGER PRIMARY KEY, k TEXT)
+CREATE TABLE
+
+> INSERT INTO d VALUES (1, 'a'), (2, 'b'), (3, 'a'), (4, NULL)
+INSERT 4
+
+> DELETE FROM d WHERE k = 'a'
+DELETE 2
+
+> SELECT id FROM d ORDER BY id
+id
+2
+4
+(2 rows)
+
+> DELETE FROM d WHERE k IS NULL
+DELETE 1
+
+> DELETE FROM d WHERE id = 99
+DELETE 0
+
+> DELETE FROM d
+DELETE 1
+
+> SELECT * FROM d
+id | k
+(0 rows)
+
+> INSERT INTO d VALUES (1, 'again')
+INSERT 1
+
+> SELECT * FROM d
+id | k
+1 | again
+(1 row)
+
+-- integrity: ok

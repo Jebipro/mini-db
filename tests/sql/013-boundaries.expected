@@ -1,0 +1,57 @@
+> CREATE TABLE b (id INTEGER PRIMARY KEY, v INTEGER)
+CREATE TABLE
+
+> INSERT INTO b VALUES (1, 9007199254740991), (2, -9007199254740991), (3, 0)
+INSERT 3
+
+> SELECT v FROM b ORDER BY v
+v
+-9007199254740991
+0
+9007199254740991
+(3 rows)
+
+> UPDATE b SET v = v + 1 WHERE id = 1
+ERROR LimitError INTEGER_OVERFLOW at 1:20: integer result out of range
+
+> UPDATE b SET v = v - 1 WHERE id = 2
+ERROR LimitError INTEGER_OVERFLOW at 1:20: integer result out of range
+
+> UPDATE b SET v = v * 2
+ERROR LimitError INTEGER_OVERFLOW at 1:20: integer result out of range
+
+> UPDATE b SET v = - v WHERE id = 2
+UPDATE 1
+
+> UPDATE b SET v = 0 * -5 WHERE id = 3
+UPDATE 1
+
+> SELECT id, v FROM b ORDER BY id
+id | v
+1 | 9007199254740991
+2 | 9007199254740991
+3 | 0
+(3 rows)
+
+> INSERT INTO b VALUES (4, 9007199254740991 + 0)
+INSERT 1
+
+> INSERT INTO b VALUES (5, 9007199254740991 + 1)
+ERROR LimitError INTEGER_OVERFLOW at 1:43: integer result out of range
+
+> CREATE TABLE e (s TEXT)
+CREATE TABLE
+
+> INSERT INTO e VALUES ('')
+INSERT 1
+
+> SELECT s FROM e WHERE s = ''
+s
+
+(1 row)
+
+> SELECT * FROM b WHERE id > 100
+id | v
+(0 rows)
+
+-- integrity: ok

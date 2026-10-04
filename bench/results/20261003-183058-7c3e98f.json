@@ -1,0 +1,982 @@
+{
+  "env": {
+    "node": "v24.16.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "cpu": "AMD Ryzen 5 3600 6-Core Processor              ",
+    "cpus": 12,
+    "totalMemMiB": 32679,
+    "disk": "local NTFS (developer laptop, unspecified SSD)",
+    "commit": "7c3e98f"
+  },
+  "seed": 42,
+  "scale": 1,
+  "reps": 5,
+  "warmup": 1,
+  "scenarios": [
+    {
+      "id": "B1",
+      "variant": "autocommit",
+      "params": {
+        "rows": 2000
+      },
+      "timeMs": {
+        "median": 1439.064,
+        "min": 1403.476,
+        "max": 1455.196,
+        "iqr": 34.003
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 60,
+        "walFrameWrites": 4107,
+        "dataSyncs": 5,
+        "walSyncs": 2010,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "usPerRow": 720
+      }
+    },
+    {
+      "id": "B2",
+      "variant": "single-txn",
+      "params": {
+        "rows": 2000
+      },
+      "timeMs": {
+        "median": 41.874,
+        "min": 38.634,
+        "max": 44.145,
+        "iqr": 1.925
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 41,
+        "walFrameWrites": 40,
+        "dataSyncs": 1,
+        "walSyncs": 3,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "usPerRow": 21
+      }
+    },
+    {
+      "id": "B2",
+      "variant": "single-txn",
+      "params": {
+        "rows": 100000
+      },
+      "timeMs": {
+        "median": 2454.246,
+        "min": 2371.917,
+        "max": 2588.033,
+        "iqr": 122.62
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 1911,
+        "walFrameWrites": 1910,
+        "dataSyncs": 1,
+        "walSyncs": 3,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "usPerRow": 25
+      }
+    },
+    {
+      "id": "B3",
+      "variant": "pk-lookup",
+      "params": {
+        "rows": 100000,
+        "ops": 1000
+      },
+      "timeMs": {
+        "median": 41.608,
+        "min": 38.333,
+        "max": 44.648,
+        "iqr": 2.665
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "usPerOp": 42,
+        "readsPerOp": 0
+      }
+    },
+    {
+      "id": "B3",
+      "variant": "no-index-lookup",
+      "params": {
+        "rows": 100000,
+        "ops": 50
+      },
+      "timeMs": {
+        "median": 14498.851,
+        "min": 14072.662,
+        "max": 14832.155,
+        "iqr": 387.71
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "usPerOp": 289977,
+        "readsPerOp": 0
+      }
+    },
+    {
+      "id": "B3",
+      "variant": "cold-pk-lookup",
+      "params": {
+        "rows": 100000
+      },
+      "timeMs": {
+        "median": 0.188,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 3,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 0.571
+      }
+    },
+    {
+      "id": "B4",
+      "variant": "index 0.1%",
+      "params": {
+        "rows": 100000,
+        "where": "grp = 5"
+      },
+      "timeMs": {
+        "median": 0.44,
+        "min": 0.341,
+        "max": 0.635,
+        "iqr": 0.173
+      },
+      "unstable": true,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B4",
+      "variant": "seq 0.1%",
+      "params": {
+        "rows": 100000,
+        "where": "grp = 5"
+      },
+      "timeMs": {
+        "median": 231.943,
+        "min": 191.052,
+        "max": 260.532,
+        "iqr": 9.201
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B4",
+      "variant": "index 1%",
+      "params": {
+        "rows": 100000,
+        "where": "grp < 10"
+      },
+      "timeMs": {
+        "median": 5.234,
+        "min": 4.968,
+        "max": 5.727,
+        "iqr": 0.374
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B4",
+      "variant": "seq 1%",
+      "params": {
+        "rows": 100000,
+        "where": "grp < 10"
+      },
+      "timeMs": {
+        "median": 177.85,
+        "min": 176.492,
+        "max": 238.347,
+        "iqr": 27.707
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B4",
+      "variant": "index 10%",
+      "params": {
+        "rows": 100000,
+        "where": "grp < 100"
+      },
+      "timeMs": {
+        "median": 34.172,
+        "min": 33.58,
+        "max": 34.904,
+        "iqr": 0.395
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B4",
+      "variant": "seq 10%",
+      "params": {
+        "rows": 100000,
+        "where": "grp < 100"
+      },
+      "timeMs": {
+        "median": 185.809,
+        "min": 169.214,
+        "max": 188.655,
+        "iqr": 11.003
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B5",
+      "variant": "full-scan",
+      "params": {
+        "rows": 100000
+      },
+      "timeMs": {
+        "median": 202.707,
+        "min": 193.537,
+        "max": 228.92,
+        "iqr": 20.701
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "rowsPerSec": 493323
+      }
+    },
+    {
+      "id": "B7",
+      "variant": "order-by-full",
+      "params": {
+        "rows": 100000
+      },
+      "timeMs": {
+        "median": 2090.769,
+        "min": 2016.168,
+        "max": 2120.517,
+        "iqr": 61.246
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B7",
+      "variant": "order-by-limit-10",
+      "params": {
+        "rows": 100000
+      },
+      "timeMs": {
+        "median": 2032.476,
+        "min": 1824.926,
+        "max": 2089.123,
+        "iqr": 102.489
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B8",
+      "variant": "cache=64",
+      "params": {
+        "rows": 100000,
+        "ops": 5000,
+        "cachePages": 64
+      },
+      "timeMs": {
+        "median": 326.616,
+        "min": 284.136,
+        "max": 346.749,
+        "iqr": 13.288
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 9996,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 0.715
+      }
+    },
+    {
+      "id": "B8",
+      "variant": "cache=256",
+      "params": {
+        "rows": 100000,
+        "ops": 5000,
+        "cachePages": 256
+      },
+      "timeMs": {
+        "median": 312.351,
+        "min": 298.781,
+        "max": 324.09,
+        "iqr": 14.977
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 8804,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 0.749
+      }
+    },
+    {
+      "id": "B8",
+      "variant": "cache=1024",
+      "params": {
+        "rows": 100000,
+        "ops": 5000,
+        "cachePages": 1024
+      },
+      "timeMs": {
+        "median": 309.52,
+        "min": 276.336,
+        "max": 313.778,
+        "iqr": 1.143
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 4729,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 0.865
+      }
+    },
+    {
+      "id": "B8",
+      "variant": "cache=4096",
+      "params": {
+        "rows": 100000,
+        "ops": 5000,
+        "cachePages": 4096
+      },
+      "timeMs": {
+        "median": 254.195,
+        "min": 235.795,
+        "max": 277.09,
+        "iqr": 38.966
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B8",
+      "variant": "cache=16384",
+      "params": {
+        "rows": 100000,
+        "ops": 5000,
+        "cachePages": 16384
+      },
+      "timeMs": {
+        "median": 256.998,
+        "min": 242.837,
+        "max": 272.156,
+        "iqr": 17.406
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      }
+    },
+    {
+      "id": "B6",
+      "variant": "update-same-size",
+      "params": {
+        "rows": 100000,
+        "affected": 10000
+      },
+      "timeMs": {
+        "median": 97.719,
+        "min": 96.711,
+        "max": 108.188,
+        "iqr": 0.399
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 191,
+        "walFrameReads": 0,
+        "dataPageWrites": 102,
+        "walFrameWrites": 102,
+        "dataSyncs": 1,
+        "walSyncs": 3,
+        "cacheHitRate": 0.994
+      }
+    },
+    {
+      "id": "B6",
+      "variant": "update-grow",
+      "params": {
+        "rows": 100000,
+        "affected": 10000
+      },
+      "timeMs": {
+        "median": 470.498,
+        "min": 459.072,
+        "max": 509.036,
+        "iqr": 3.867
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 799,
+        "walFrameReads": 0,
+        "dataPageWrites": 1541,
+        "walFrameWrites": 1541,
+        "dataSyncs": 1,
+        "walSyncs": 3,
+        "cacheHitRate": 0.996
+      }
+    },
+    {
+      "id": "B6",
+      "variant": "delete",
+      "params": {
+        "rows": 100000,
+        "affected": 10000
+      },
+      "timeMs": {
+        "median": 252.866,
+        "min": 248.004,
+        "max": 304.444,
+        "iqr": 24.802
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 798,
+        "walFrameReads": 0,
+        "dataPageWrites": 794,
+        "walFrameWrites": 794,
+        "dataSyncs": 1,
+        "walSyncs": 3,
+        "cacheHitRate": 0.993
+      }
+    },
+    {
+      "id": "B9",
+      "variant": "wal-frames=0",
+      "params": {
+        "walFrames": 0
+      },
+      "timeMs": {
+        "median": 2.447,
+        "min": 2.091,
+        "max": 2.551,
+        "iqr": 0.079
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "framesApplied": 0
+      }
+    },
+    {
+      "id": "B9",
+      "variant": "wal-frames=100",
+      "params": {
+        "walFrames": 100
+      },
+      "timeMs": {
+        "median": 7.894,
+        "min": 7.485,
+        "max": 8.959,
+        "iqr": 0.512
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "framesApplied": 15
+      }
+    },
+    {
+      "id": "B9",
+      "variant": "wal-frames=1000",
+      "params": {
+        "walFrames": 1000
+      },
+      "timeMs": {
+        "median": 33.599,
+        "min": 32.317,
+        "max": 34.022,
+        "iqr": 1.512
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "framesApplied": 125
+      }
+    },
+    {
+      "id": "B9",
+      "variant": "wal-frames=10001",
+      "params": {
+        "walFrames": 10001
+      },
+      "timeMs": {
+        "median": 285.33,
+        "min": 283.499,
+        "max": 294.842,
+        "iqr": 1.215
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "framesApplied": 1232
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=1",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 256.151,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 288,
+        "freePages": 0,
+        "heapPages": 154,
+        "btreePages": 133
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=2",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 435.938,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 334,
+        "freePages": 0,
+        "heapPages": 179,
+        "btreePages": 154
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=3",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 575.417,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 358,
+        "freePages": 0,
+        "heapPages": 192,
+        "btreePages": 165
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=4",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 709.649,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 369,
+        "freePages": 0,
+        "heapPages": 198,
+        "btreePages": 170
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=5",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 813.196,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 374,
+        "freePages": 0,
+        "heapPages": 201,
+        "btreePages": 172
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=6",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 919.367,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 376,
+        "freePages": 0,
+        "heapPages": 202,
+        "btreePages": 173
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=7",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 1018.011,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 377,
+        "freePages": 0,
+        "heapPages": 203,
+        "btreePages": 173
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=8",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 1117.298,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 377,
+        "freePages": 0,
+        "heapPages": 203,
+        "btreePages": 173
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=9",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 1215.821,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 377,
+        "freePages": 0,
+        "heapPages": 203,
+        "btreePages": 173
+      }
+    },
+    {
+      "id": "B10",
+      "variant": "round=10",
+      "params": {
+        "rows": 10000
+      },
+      "timeMs": {
+        "median": 1310.923,
+        "min": 0,
+        "max": 0,
+        "iqr": 0
+      },
+      "unstable": false,
+      "io": {
+        "dataPageReads": 0,
+        "walFrameReads": 0,
+        "dataPageWrites": 0,
+        "walFrameWrites": 0,
+        "dataSyncs": 0,
+        "walSyncs": 0,
+        "cacheHitRate": 1
+      },
+      "extra": {
+        "pageCount": 377,
+        "freePages": 0,
+        "heapPages": 203,
+        "btreePages": 173
+      }
+    }
+  ]
+}

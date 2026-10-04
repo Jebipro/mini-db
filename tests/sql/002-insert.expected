@@ -1,0 +1,40 @@
+> CREATE TABLE t (id INTEGER PRIMARY KEY, name TEXT, score INTEGER, ok BOOLEAN)
+CREATE TABLE
+
+> INSERT INTO t VALUES (1, 'a', 10, TRUE)
+INSERT 1
+
+> INSERT INTO t (id, name) VALUES (2, 'b'), (3, 'c')
+INSERT 2
+
+> INSERT INTO t (name, id) VALUES ('d', 4)
+INSERT 1
+
+> INSERT INTO t VALUES (5, 'e', 1 + 2 * 3, NOT FALSE)
+INSERT 1
+
+> INSERT INTO t VALUES (6, 'f')
+ERROR SemanticError COLUMN_COUNT_MISMATCH at 1:22: 2 values for 4 columns
+
+> INSERT INTO t (id, id) VALUES (7, 8)
+ERROR SemanticError DUPLICATE_COLUMN at 1:20: column id is listed twice
+
+> INSERT INTO t (id) VALUES (id)
+ERROR SemanticError NOT_CONSTANT at 1:28: column reference id is not allowed in VALUES
+
+> INSERT INTO t (id, score) VALUES (9, 'x')
+ERROR SemanticError TYPE_MISMATCH at 1:38: cannot assign TEXT to column score of type INTEGER
+
+> INSERT INTO t VALUES ()
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:23: expected an expression but found ')'
+
+> SELECT * FROM t ORDER BY id
+id | name | score | ok
+1 | a | 10 | TRUE
+2 | b | NULL | NULL
+3 | c | NULL | NULL
+4 | d | NULL | NULL
+5 | e | 7 | TRUE
+(5 rows)
+
+-- integrity: ok

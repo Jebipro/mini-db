@@ -1,0 +1,37 @@
+> CREATE TABLE c (id INTEGER PRIMARY KEY, name TEXT NOT NULL, note TEXT)
+CREATE TABLE
+
+> INSERT INTO c VALUES (1, 'a', NULL)
+INSERT 1
+
+> INSERT INTO c VALUES (1, 'b', NULL)
+ERROR ConstraintError UNIQUE_VIOLATION at 1:22: duplicate key 1 in index mdb_pk_c (column id)
+
+> INSERT INTO c VALUES (NULL, 'b', NULL)
+ERROR ConstraintError NOT_NULL_VIOLATION at 1:22: NULL in NOT NULL column c.id
+
+> INSERT INTO c (id) VALUES (2)
+ERROR ConstraintError NOT_NULL_VIOLATION at 1:27: NULL in NOT NULL column c.name
+
+> INSERT INTO c VALUES (2, 'b', NULL), (3, 'c', NULL), (2, 'dup', NULL)
+ERROR ConstraintError UNIQUE_VIOLATION at 1:54: duplicate key 2 in index mdb_pk_c (column id)
+
+> INSERT INTO c VALUES (2, 'b', NULL), (3, NULL, NULL)
+ERROR ConstraintError NOT_NULL_VIOLATION at 1:38: NULL in NOT NULL column c.name
+
+> SELECT * FROM c ORDER BY id
+id | name | note
+1 | a | NULL
+(1 row)
+
+> INSERT INTO c VALUES (2, 'b', 'ok'), (3, 'c', 'ok')
+INSERT 2
+
+> SELECT id, name, note FROM c ORDER BY id
+id | name | note
+1 | a | NULL
+2 | b | ok
+3 | c | ok
+(3 rows)
+
+-- integrity: ok

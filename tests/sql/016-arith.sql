@@ -1,0 +1,9 @@
+CREATE TABLE a (id INTEGER PRIMARY KEY, x INTEGER, y INTEGER);
+INSERT INTO a VALUES (1, 7, 3), (2, -4, 5), (3, NULL, 2);
+SELECT id FROM a WHERE x * y > 0 ORDER BY id;
+SELECT id FROM a WHERE x - y * 2 = 1 ORDER BY id;
+SELECT id FROM a WHERE - x = 4;
+SELECT id FROM a WHERE (x + y) * 2 = 20;
+SELECT id FROM a WHERE x + y IS NULL;
+UPDATE a SET x = x * y + 1;
+SELECT id, x FROM a ORDER BY id;

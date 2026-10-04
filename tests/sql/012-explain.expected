@@ -1,0 +1,42 @@
+> CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)
+CREATE TABLE
+
+> EXPLAIN SELECT * FROM users
+plan
+Project columns=id, name, age
+  SeqScan table=users
+(2 rows)
+
+> EXPLAIN SELECT name FROM users WHERE age >= 30 AND name <> 'x' ORDER BY name LIMIT 10
+plan
+Project columns=name
+  Limit limit=10 offset=0
+    Sort keys=name ASC
+      Filter predicate=((age >= 30) AND (name <> 'x'))
+        SeqScan table=users
+(5 rows)
+
+> EXPLAIN SELECT id FROM users WHERE NOT (age != -3) OR name IS NULL ORDER BY age DESC, id LIMIT 1 OFFSET 2
+plan
+Project columns=id
+  Limit limit=1 offset=2
+    Sort keys=age DESC, id ASC
+      Filter predicate=((NOT (age <> (-3))) OR (name IS NULL))
+        SeqScan table=users
+(5 rows)
+
+> EXPLAIN SELECT id FROM users WHERE age * 2 + 1 = 7 AND name = 'it''s'
+plan
+Project columns=id
+  Filter predicate=((((age * 2) + 1) = 7) AND (name = 'it''s'))
+    SeqScan table=users
+(3 rows)
+
+> EXPLAIN SELECT id FROM users LIMIT 5
+plan
+Project columns=id
+  Limit limit=5 offset=0
+    SeqScan table=users
+(3 rows)
+
+-- integrity: ok

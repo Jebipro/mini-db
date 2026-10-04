@@ -1,0 +1,42 @@
+> CREATE TABLE a (id INTEGER PRIMARY KEY, x INTEGER, y INTEGER)
+CREATE TABLE
+
+> INSERT INTO a VALUES (1, 7, 3), (2, -4, 5), (3, NULL, 2)
+INSERT 3
+
+> SELECT id FROM a WHERE x * y > 0 ORDER BY id
+id
+1
+(1 row)
+
+> SELECT id FROM a WHERE x - y * 2 = 1 ORDER BY id
+id
+1
+(1 row)
+
+> SELECT id FROM a WHERE - x = 4
+id
+2
+(1 row)
+
+> SELECT id FROM a WHERE (x + y) * 2 = 20
+id
+1
+(1 row)
+
+> SELECT id FROM a WHERE x + y IS NULL
+id
+3
+(1 row)
+
+> UPDATE a SET x = x * y + 1
+UPDATE 3
+
+> SELECT id, x FROM a ORDER BY id
+id | x
+1 | 22
+2 | -19
+3 | NULL
+(3 rows)
+
+-- integrity: ok

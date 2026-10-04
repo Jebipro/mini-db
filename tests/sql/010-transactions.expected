@@ -1,0 +1,62 @@
+> CREATE TABLE x (id INTEGER PRIMARY KEY, v TEXT)
+CREATE TABLE
+
+> COMMIT
+ERROR TransactionError TXN_NOT_ACTIVE at 1:1: no active transaction
+
+> ROLLBACK
+ERROR TransactionError TXN_NOT_ACTIVE at 1:1: no active transaction
+
+> BEGIN
+BEGIN
+
+> BEGIN
+ERROR TransactionError TXN_ALREADY_ACTIVE at 1:1: a transaction is already active
+
+> INSERT INTO x VALUES (1, 'kept')
+INSERT 1
+
+> INSERT INTO x VALUES (2, 'b'), (1, 'dup')
+ERROR ConstraintError UNIQUE_VIOLATION at 1:32: duplicate key 1 in index mdb_pk_x (column id)
+
+> INSERT INTO x VALUES (3, 'kept too')
+INSERT 1
+
+> COMMIT
+COMMIT
+
+> SELECT * FROM x ORDER BY id
+id | v
+1 | kept
+3 | kept too
+(2 rows)
+
+> BEGIN
+BEGIN
+
+> DELETE FROM x
+DELETE 2
+
+> CREATE TABLE y (a INTEGER)
+CREATE TABLE
+
+> INSERT INTO y VALUES (1)
+INSERT 1
+
+> SELECT * FROM x
+id | v
+(0 rows)
+
+> ROLLBACK
+ROLLBACK
+
+> SELECT * FROM x ORDER BY id
+id | v
+1 | kept
+3 | kept too
+(2 rows)
+
+> SELECT * FROM y
+ERROR SemanticError TABLE_NOT_FOUND at 1:15: no such table: y
+
+-- integrity: ok

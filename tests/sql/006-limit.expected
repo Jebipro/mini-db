@@ -1,0 +1,46 @@
+> CREATE TABLE l (id INTEGER PRIMARY KEY)
+CREATE TABLE
+
+> INSERT INTO l VALUES (1), (2), (3), (4), (5), (6)
+INSERT 6
+
+> SELECT id FROM l ORDER BY id LIMIT 3
+id
+1
+2
+3
+(3 rows)
+
+> SELECT id FROM l ORDER BY id LIMIT 3 OFFSET 2
+id
+3
+4
+5
+(3 rows)
+
+> SELECT id FROM l ORDER BY id LIMIT 0
+id
+(0 rows)
+
+> SELECT id FROM l ORDER BY id LIMIT 100 OFFSET 5
+id
+6
+(1 row)
+
+> SELECT id FROM l ORDER BY id LIMIT 2 OFFSET 6
+id
+(0 rows)
+
+> SELECT id FROM l ORDER BY id DESC LIMIT 2 OFFSET 1
+id
+5
+4
+(2 rows)
+
+> SELECT id FROM l LIMIT -1
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:24: expected integer literal but found '-'
+
+> SELECT id FROM l OFFSET 2
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:18: expected ';' or end of input but found OFFSET
+
+-- integrity: ok

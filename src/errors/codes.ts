@@ -1,0 +1,65 @@
+/** Stable error codes (H.2). `check-docs.mjs` compares this set with the SPEC.md table. */
+export const ERROR_CODES = {
+  SqlSyntaxError: [
+    'SYNTAX_UNEXPECTED_TOKEN',
+    'SYNTAX_UNEXPECTED_EOF',
+    'SYNTAX_UNTERMINATED_STRING',
+    'SYNTAX_INVALID_STRING',
+    'SYNTAX_INVALID_CHARACTER',
+    'SYNTAX_INVALID_NUMBER',
+    'SYNTAX_EMPTY_STATEMENT',
+    'SYNTAX_MULTIPLE_STATEMENTS',
+  ],
+  SemanticError: [
+    'TABLE_NOT_FOUND',
+    'INDEX_NOT_FOUND',
+    'COLUMN_NOT_FOUND',
+    'OBJECT_EXISTS',
+    'DUPLICATE_COLUMN',
+    'DUPLICATE_CONSTRAINT',
+    'MULTIPLE_PRIMARY_KEYS',
+    'TYPE_MISMATCH',
+    'COLUMN_COUNT_MISMATCH',
+    'NOT_CONSTANT',
+    'RESERVED_NAME',
+    'CANNOT_DROP_PK_INDEX',
+  ],
+  ConstraintError: ['NOT_NULL_VIOLATION', 'UNIQUE_VIOLATION'],
+  TransactionError: ['TXN_ALREADY_ACTIVE', 'TXN_NOT_ACTIVE', 'TXN_ACTIVE'],
+  LimitError: [
+    'ROW_TOO_LARGE',
+    'KEY_TOO_LARGE',
+    'TEXT_TOO_LARGE',
+    'TOO_MANY_COLUMNS',
+    'IDENTIFIER_TOO_LONG',
+    'INTEGER_OUT_OF_RANGE',
+    'INTEGER_OVERFLOW',
+    'TXN_TOO_LARGE',
+  ],
+  StorageError: ['IO_ERROR', 'IO_COMMIT_UNKNOWN', 'DB_LOCKED', 'DB_FAILED'],
+  CorruptionError: [
+    'NOT_A_DATABASE',
+    'UNSUPPORTED_FORMAT_VERSION',
+    'FILE_TRUNCATED',
+    'PAGE_CHECKSUM_MISMATCH',
+    'PAGE_ID_MISMATCH',
+    'PAGE_TYPE_INVALID',
+    'PAGE_TYPE_MISMATCH',
+    'PAGE_OUT_OF_RANGE',
+    'FREELIST_INVALID',
+    'RECORD_MALFORMED',
+    'BTREE_MALFORMED',
+    'INDEX_HEAP_MISMATCH',
+    'CATALOG_INVALID',
+    'WAL_HEADER_INVALID',
+    'WAL_FRAME_INVALID',
+    'WAL_MISMATCH',
+  ],
+  InternalError: ['INVARIANT_VIOLATION'],
+  UsageError: ['DB_CLOSED', 'INVALID_OPTION'],
+} as const;
+
+type Codes = typeof ERROR_CODES;
+export type ErrorClassName = keyof Codes;
+export type CodeOf<K extends ErrorClassName> = Codes[K][number];
+export type ErrorCode = { [K in ErrorClassName]: CodeOf<K> }[ErrorClassName];

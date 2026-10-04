@@ -1,0 +1,50 @@
+> CREATE TABLE p (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)
+CREATE TABLE
+
+> INSERT INTO p VALUES (1, 'ann', 31), (2, 'bob', 25), (3, 'cy', 40), (4, 'di', NULL)
+INSERT 4
+
+> SELECT * FROM p ORDER BY id
+id | name | age
+1 | ann | 31
+2 | bob | 25
+3 | cy | 40
+4 | di | NULL
+(4 rows)
+
+> SELECT name, id FROM p WHERE age > 30 ORDER BY id
+name | id
+ann | 1
+cy | 3
+(2 rows)
+
+> SELECT name FROM p WHERE age >= 25 AND age <= 31 ORDER BY name
+name
+ann
+bob
+(2 rows)
+
+> SELECT name FROM p WHERE name = 'bob' OR id = 3 ORDER BY id
+name
+bob
+cy
+(2 rows)
+
+> SELECT id, id FROM p WHERE id = 1
+id | id
+1 | 1
+(1 row)
+
+> SELECT nope FROM p
+ERROR SemanticError COLUMN_NOT_FOUND at 1:8: no such column: nope in table p
+
+> SELECT * FROM nope
+ERROR SemanticError TABLE_NOT_FOUND at 1:15: no such table: nope
+
+> SELECT * FROM p WHERE age = 'x'
+ERROR SemanticError TYPE_MISMATCH at 1:27: cannot compare INTEGER with TEXT
+
+> SELECT * FROM p WHERE age
+ERROR SemanticError TYPE_MISMATCH at 1:23: WHERE condition must be BOOLEAN, not INTEGER
+
+-- integrity: ok

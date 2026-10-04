@@ -1,0 +1,31 @@
+> SELECT * FROM t WHERE (a, b)
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:25: expected ')' but found ','
+
+> SELEC * FROM t
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:1: expected a statement but found identifier 'selec'
+
+> SELECT * FROM
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_EOF at 1:14: expected table name but found end of input
+
+> SELECT * FROM t WHERE a = b = c
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:29: expected ';' or end of input but found '='
+
+> SELECT * FROM t WHERE x = 123abc
+ERROR SqlSyntaxError SYNTAX_INVALID_NUMBER at 1:27: invalid number '123a'
+
+> SELECT ? FROM t
+ERROR SqlSyntaxError SYNTAX_INVALID_CHARACTER at 1:8: unexpected character '?'
+
+> INSERT INTO t VALUES (9007199254740992)
+ERROR LimitError INTEGER_OUT_OF_RANGE at 1:23: integer literal 9007199254740992 is outside ±9007199254740991
+
+> CREATE TABLE t (a REAL)
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:19: expected a column type (INTEGER, TEXT or BOOLEAN) but found identifier 'real'
+
+> EXPLAIN DELETE FROM t
+ERROR SqlSyntaxError SYNTAX_UNEXPECTED_TOKEN at 1:9: expected SELECT but found DELETE
+
+> SELECT 'unterminated
+ERROR SqlSyntaxError SYNTAX_UNTERMINATED_STRING at 1:8: unterminated string literal
+
+-- integrity: ok

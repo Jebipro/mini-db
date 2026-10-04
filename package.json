@@ -1,0 +1,33 @@
+{
+  "name": "mini-db",
+  "version": "0.1.0",
+  "description": "Embedded single-file relational database engine written from scratch in TypeScript (educational).",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "minidb": "dist/src/cli/main.js"
+  },
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check:any": "node scripts/check-any.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
+    "test": "vitest run",
+    "test:random": "vitest run --config vitest.long.config.ts tests/long/random.long.test.ts",
+    "test:crash": "vitest run --config vitest.long.config.ts tests/long/crash.long.test.ts",
+    "check": "npm run typecheck && npm run check:any && npm run check:docs && npm test",
+    "cli": "npm run build && node dist/src/cli/main.js",
+    "bench": "npm run build && node dist/bench/run.js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.3"
+  }
+}

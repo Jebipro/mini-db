@@ -1,0 +1,8 @@
+CREATE TABLE o (id INTEGER PRIMARY KEY, g TEXT, v INTEGER);
+INSERT INTO o VALUES (1, 'b', 3), (2, 'a', NULL), (3, 'b', 1), (4, NULL, 2), (5, 'a', 5);
+SELECT id, v FROM o ORDER BY v;
+SELECT id, v FROM o ORDER BY v DESC;
+SELECT id, g, v FROM o ORDER BY g, v DESC;
+SELECT id FROM o ORDER BY g DESC, id;
+SELECT g FROM o ORDER BY id DESC;
+SELECT id FROM o ORDER BY nope;

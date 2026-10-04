@@ -1,0 +1,38 @@
+> CREATE TABLE m (id INTEGER PRIMARY KEY, s TEXT)
+CREATE TABLE
+
+> INSERT INTO m VALUES (1, '한글'), (2, 'a'), (3, '😀'), (4, 'ｱ'), (5, 'B'), (6, 'é'), (7, ''), (8, 'it''s')
+INSERT 8
+
+> SELECT id, s FROM m ORDER BY s
+id | s
+7 | 
+5 | B
+2 | a
+8 | it's
+6 | é
+1 | 한글
+4 | ｱ
+3 | 😀
+(8 rows)
+
+> SELECT id FROM m WHERE s > 'z' ORDER BY id
+id
+1
+3
+4
+6
+(4 rows)
+
+> SELECT s FROM m WHERE s = '😀'
+s
+😀
+(1 row)
+
+> SELECT id FROM m WHERE s < 'a' ORDER BY id
+id
+5
+7
+(2 rows)
+
+-- integrity: ok

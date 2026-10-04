@@ -1,0 +1,11 @@
+CREATE TABLE p (id INTEGER PRIMARY KEY, name TEXT, age INTEGER);
+INSERT INTO p VALUES (1, 'ann', 31), (2, 'bob', 25), (3, 'cy', 40), (4, 'di', NULL);
+SELECT * FROM p ORDER BY id;
+SELECT name, id FROM p WHERE age > 30 ORDER BY id;
+SELECT name FROM p WHERE age >= 25 AND age <= 31 ORDER BY name;
+SELECT name FROM p WHERE name = 'bob' OR id = 3 ORDER BY id;
+SELECT id, id FROM p WHERE id = 1;
+SELECT nope FROM p;
+SELECT * FROM nope;
+SELECT * FROM p WHERE age = 'x';
+SELECT * FROM p WHERE age;

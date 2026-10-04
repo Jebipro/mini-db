@@ -1,0 +1,11 @@
+CREATE TABLE t (id INTEGER PRIMARY KEY, name TEXT, score INTEGER, ok BOOLEAN);
+INSERT INTO t VALUES (1, 'a', 10, TRUE);
+INSERT INTO t (id, name) VALUES (2, 'b'), (3, 'c');
+INSERT INTO t (name, id) VALUES ('d', 4);
+INSERT INTO t VALUES (5, 'e', 1 + 2 * 3, NOT FALSE);
+INSERT INTO t VALUES (6, 'f');
+INSERT INTO t (id, id) VALUES (7, 8);
+INSERT INTO t (id) VALUES (id);
+INSERT INTO t (id, score) VALUES (9, 'x');
+INSERT INTO t VALUES ();
+SELECT * FROM t ORDER BY id;
